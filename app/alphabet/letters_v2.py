@@ -29,7 +29,7 @@ def space(arm):
 def move(arm, paths):
     last_pos = arm.position + [0, 0]
 
-    arm.set_pause_time(3)
+    arm.set_pause_time(1)
     for path in paths:
         last_pos = list(add(last_pos[:6], path[:6])) + [0, 0]
         last_pos[6] = path[6]

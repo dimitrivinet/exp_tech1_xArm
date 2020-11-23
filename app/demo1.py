@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
-from xarm.wrapper import XArmAPI
-from alphabet import letters
-import string
-import signal
-import sys
+from alphabet import letters_v2
 from copy import deepcopy
-import time
 from numpy import add
+from xarm.wrapper import XArmAPI
+
+import signal
+import string
+import sys
+import time
 
 
 def sigint_handler(sig, frame):
@@ -19,12 +20,12 @@ def sigint_handler(sig, frame):
 
 signal.signal(signal.SIGINT, sigint_handler)
 
-letter_functions = {"a": letters.A, "b": letters.B, "c": letters.C, "d": letters.D, "e": letters.E,
-                    "f": letters.F, "g": letters.G, "h": letters.H, "i": letters.I, "j": letters.J,
-                    "k": letters.K, "l": letters.L, "m": letters.M, "n": letters.N, "o": letters.O,
-                    "p": letters.P, "q": letters.Q, "r": letters.R, "s": letters.S, "t": letters.T,
-                    "u": letters.U, "v": letters.V, "w": letters.W, "x": letters.X, "y": letters.Y,
-                    "z": letters.Z, " ": letters.space, "Invalid": letters.Invalid}
+letter_functions = {"a": letters_v2.A, "b": letters_v2.B, "c": letters_v2.C, "d": letters_v2.D, "e": letters_v2.E,
+                    "f": letters_v2.F, "g": letters_v2.G, "h": letters_v2.H, "i": letters_v2.I, "j": letters_v2.J,
+                    "k": letters_v2.K, "l": letters_v2.L, "m": letters_v2.M, "n": letters_v2.N, "o": letters_v2.O,
+                    "p": letters_v2.P, "q": letters_v2.Q, "r": letters_v2.R, "s": letters_v2.S, "t": letters_v2.T,
+                    "u": letters_v2.U, "v": letters_v2.V, "w": letters_v2.W, "x": letters_v2.X, "y": letters_v2.Y,
+                    "z": letters_v2.Z, " ": letters_v2.space, "Invalid": letters_v2.Invalid}
 # letter_functions = {letter: letter.upper() for letter in list(string.ascii_lowercase)} #dict of all alphabet letters to call associated functions
 # letter_functions["Invalid"] = "Invalid" #add invalid and space functions
 # letter_functions[" "] = "space"
@@ -47,17 +48,9 @@ arm.motion_enable(enable=True)
 arm.set_mode(0)
 arm.set_state(state=0)
 
-
-# print("===============================================")
-# print("Put robot in writing position, with pen touching the paper")
-# print("type ok and hit enter when you're done")
-# print("===============================================")
-
-# arm.set_mode(2)
-# ok = input()
-# while ok != "ok":
-#     ok = input()
-# arm.set_mode(0)
+ok = input()
+while ok != "ok":
+    ok = input()
 
 if len(sys.argv) == 1:
     sentence = input("Enter sentence to write (no special characters)\n")
@@ -68,10 +61,10 @@ else:
 
 to_write = list(sentence)
 print("sentence: {}".format(sentence))
-# print("letters: {}".format(to_write))
+# print("letters_v2: {}".format(to_write))
 
 
-letters.start(arm)
+letters_v2.start(arm)
 
 for letter in to_write:
-    letter_functions.get(letter, letters.Invalid)(arm)  # calls the function for each letter you want to write
+    letter_functions.get(letter, letters_v2.Invalid)(arm)  # calls the function for each letter you want to write
