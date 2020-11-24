@@ -50,8 +50,10 @@ arm.motion_enable(enable=True)
 arm.set_mode(0)
 arm.set_state(state=0)
 
+sentence = ""
+while sentence[:6] != "écris":
+    sentence = speech_recog_v1.return_sentence()
 
-sentence = speech_recog_v1.return_sentence()
 sentence = ''.join((c for c in unicodedata.normalize(
     'NFD', sentence) if unicodedata.category(c) != 'Mn'))
 
@@ -63,5 +65,5 @@ print("sentence: {}".format(sentence))
 letters_v2.start(arm)
 
 for letter in to_write:
-    letter_functions.get(letter, letters_v2.Invalid)(arm)  # calls the function for each letter you want to write
-
+    # calls the function for each letter you want to write
+    letter_functions.get(letter, letters_v2.Invalid)(arm)
