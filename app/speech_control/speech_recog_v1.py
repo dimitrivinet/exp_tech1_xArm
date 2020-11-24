@@ -1,19 +1,36 @@
 #!/usr/bin/env python3
 
-import speech_recognition as sr
 import pyaudio
-import time
+import speech_recognition as sr
 import sys
+import time
 
+from contextlib import contextmanager
+from ctypes import CFUNCTYPE, c_char_p, c_int, cdll
+
+
+
+ERROR_HANDLER_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
+
+def py_error_handler(filename, line, function, err, fmt):
+    pass
+
+c_error_handler = ERROR_HANDLER_FUNC(py_error_handler)
+
+@contextmanager
+def noalsaerr():
+    asound = cdll.LoadLibrary('libasound.so')
+    asound.snd_lib_error_set_handler(c_error_handler)
+    yield
+    asound.snd_lib_error_set_handler(None)
 
 def record_and_recognize():
-    r = sr.Recognizer()
+    with noalsaerr():
+        r = sr.Recognizer()
+        mic = sr.Microphone()
 
-    mic = sr.Microphone()
-    print(mic)
-
-    # print(sr.Microphone.list_microphone_names())
-
+        # print(mic)
+        # print(sr.Microphone.list_microphone_names())
 
     try:
         with mic as source:
@@ -21,7 +38,7 @@ def record_and_recognize():
             print("\nsay something (im giving up on you)")
             audio = r.listen(source, timeout=5, phrase_time_limit=3)
 
-        print("done recording. recognizing...")
+        print("done recording. recognizing...\n")
         return(r.recognize_google(audio, language="fr-FR"))
     except:
         print("Message non reconnu")
@@ -47,9 +64,10 @@ def return_sentence():
     while msg != "ok":
         print("Initialisation...")
         output = record_and_recognize()
-        print("output: {}".format(output))
+        print("output: {}\n".format(output))
         msg = input(
             "Entrer ok pour retourner ce message, ou autre chose pour réessayer\n")
+    print("message enregistré\n")
     return output
 
 

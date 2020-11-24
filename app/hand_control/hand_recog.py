@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 import mediapipe as mp
 
@@ -107,7 +108,7 @@ def getStructuredLandmarks(landmarks):
 
 
 hands = mp_hands.Hands(
-    min_detection_confidence=0.7, min_tracking_confidence=0.5, max_num_hands=1)
+    min_detection_confidence=0.7, min_tracking_confidence=0.5, max_num_hands=2)
 
 cap = cv2.VideoCapture(0)
 

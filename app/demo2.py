@@ -20,7 +20,7 @@ def sigint_handler(sig, frame):
     sys.exit(0)
 
 
-# signal.signal(signal.SIGINT, sigint_handler)
+signal.signal(signal.SIGINT, sigint_handler)
 
 letter_functions = {"a": letters_v2.A, "b": letters_v2.B, "c": letters_v2.C, "d": letters_v2.D, "e": letters_v2.E,
                     "f": letters_v2.F, "g": letters_v2.G, "h": letters_v2.H, "i": letters_v2.I, "j": letters_v2.J,
@@ -50,15 +50,35 @@ arm.motion_enable(enable=True)
 arm.set_mode(0)
 arm.set_state(state=0)
 
+print("\n=================================================\n")
+
 sentence = ""
-while sentence[:6] != "écris":
+rep = ""
+while rep != "ok":
     sentence = speech_recog_v1.return_sentence()
+    sentence = sentence.split("écri")
+    try:
+        print("to write: {}".format(sentence[1][2:]))
+        rep = input("ok pour continuer, autre pour réessayer\n")
+    except:
+        print("erreur: utiliser le mot clé 'écris' pour faire écrire le robot")
+        try_again = input("recommencer? (y/n)")
+
+        if try_again != "y":
+            print("exiting...")
+            time.sleep(0.5)
+            arm.set_state(state=4)
+            arm.disconnect()
+            sys.exit(0)
+        else:
+            time.sleep(0.5)
+
 
 sentence = ''.join((c for c in unicodedata.normalize(
-    'NFD', sentence) if unicodedata.category(c) != 'Mn'))
+    'NFD', sentence[1][2:]) if unicodedata.category(c) != 'Mn'))
 
 to_write = list(sentence)
-print("sentence: {}".format(sentence))
+print("writing: {}".format(sentence))
 # print("letters_v2: {}".format(to_write))
 
 
