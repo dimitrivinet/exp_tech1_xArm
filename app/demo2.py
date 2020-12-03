@@ -34,7 +34,7 @@ letter_functions = {"a": letters_v2.A, "b": letters_v2.B, "c": letters_v2.C, "d"
 
 # print(letter_functions)
 
-arm = XArmAPI('172.21.72.121', do_not_open=True)
+arm = XArmAPI('172.21.72.250', do_not_open=True)
 arm.connect()
 
 arm.set_world_offset([0, 0, 0, 0, 0, 0])
@@ -60,6 +60,7 @@ while rep != "ok":
     try:
         print("to write: {}".format(sentence[1][2:]))
         rep = input("ok pour continuer, autre pour réessayer\n")
+        rep = "ok"
     except:
         print("erreur: utiliser le mot clé 'écris' pour faire écrire le robot")
         try_again = input("recommencer? (y/n)")

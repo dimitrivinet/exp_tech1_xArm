@@ -36,7 +36,7 @@ def record_and_recognize():
         with mic as source:
             r.adjust_for_ambient_noise(source)
             print("\nsay something (im giving up on you)")
-            audio = r.listen(source, timeout=5, phrase_time_limit=3)
+            audio = r.listen(source, timeout=10, phrase_time_limit=6)
 
         print("done recording. recognizing...\n")
         return(r.recognize_google(audio, language="fr-FR"))
@@ -65,10 +65,11 @@ def return_sentence():
         print("Initialisation...")
         output = record_and_recognize()
         print("output: {}\n".format(output))
-        msg = input(
-            "Entrer ok pour retourner ce message, ou autre chose pour réessayer\n")
+        # msg = input(
+        #     "Entrer ok pour retourner ce message, ou autre chose pour réessayer\n")
+        msg = "ok"
     print("message enregistré\n")
-    return output
+    return output.lower()
 
 
 # test()

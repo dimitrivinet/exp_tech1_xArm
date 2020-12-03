@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import mediapipe as mp
+import time
 
 from cv2 import cv2
 
@@ -150,7 +151,7 @@ while cap.isOpened():
         cv2.putText(image, text2, (360, 460), font,
                     1, (0, 0, 255), 2, cv2.LINE_4)
 
-    cv2.imshow('MediaPipe Hands', image)
+    # cv2.imshow('MediaPipe Hands', image)
     if cv2.waitKey(5) & 0xFF == 27:
         break
 

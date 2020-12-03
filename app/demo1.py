@@ -32,7 +32,7 @@ letter_functions = {"a": letters_v2.A, "b": letters_v2.B, "c": letters_v2.C, "d"
 
 # print(letter_functions)
 
-arm = XArmAPI('172.21.72.121', do_not_open=True)
+arm = XArmAPI('172.21.72.250', do_not_open=True)
 arm.connect()
 
 arm.set_world_offset([0, 0, 0, 0, 0, 0])
@@ -60,7 +60,7 @@ else:
     sentence = sentence.lower()
 
 to_write = list(sentence)
-print("sentence: {}".format(sentence))
+print("writing: {}".format(sentence))
 # print("letters_v2: {}".format(to_write))
 
 
