@@ -29,13 +29,13 @@ def space(arm):
 def move(arm, paths):
     last_pos = arm.position + [0, 0]
 
-    arm.set_pause_time(3)
+    arm.set_pause_time(1)
     for path in paths:
         last_pos = list(add(last_pos[:6], path[:6])) + [0, 0]
         last_pos[6] = path[6]
         last_pos[7] = path[7]
         # print(last_pos)
-        ret = arm.set_position(*last_pos[:7], is_radian=False, wait=last_pos[7], speed=5, mvacc=500, relative=False)
+        ret = arm.set_position(*last_pos[:7], is_radian=False, wait=last_pos[7], speed=8, mvacc=500, relative=False)
         if ret < 0:
             print('set_position, ret={}'.format(ret))
             return -1
@@ -166,7 +166,8 @@ def H(arm):
         [5, 0, -5, 0, 0, 0, 0, False],
         [0, 0, 5, 0, 0, 0, 0, False],
         [-10, 0, 0, 0, 0, 0, 0, False],
-        [0, 0, -5, 0, 0, 0, 0, True],
+        [0, 0, -5, 0, 0, 0, 0, False],
+        [0, 3, 0, 0, 0, 0, 0, True]
     ]
     move(arm, paths)
 
@@ -337,7 +338,7 @@ def S(arm):
 
 def T(arm):
     paths = [
-        [10, 8, 0, 0, 0, 0, 0, False],
+        [10, 5, 0, 0, 0, 0, 0, False],
         [0, 0, 5, 0, 0, 0, 0, False],
         [-10, 0, 0, 0, 0, 0, 0, False],
         [0, 0, -5, 0, 0, 0, 0, False],
