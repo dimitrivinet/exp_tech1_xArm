@@ -59,7 +59,7 @@ time.sleep(0.5)
 base_pos = deepcopy(arm.position)
 print("base_pos: {}".format(base_pos))
 print("world offset: {}".format(arm.world_offset))
-arm.set_world_offset([0, 0, 0, -180, 0, base_pos[5]])
+arm.set_world_offset([0, 0, 0, -179.7, base_pos[4], base_pos[5]])
 time.sleep(0.5)
 print("world offset: {}".format(arm.world_offset))
 
