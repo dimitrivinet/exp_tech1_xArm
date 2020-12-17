@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
 
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 import xml.etree.ElementTree as ET
 
+dirname = os.path.dirname(__file__)
 
 def bezier_points(P: list, resolution: int) -> np.array:
     T = np.linspace(0, 1, resolution)
@@ -14,7 +17,7 @@ def bezier_points(P: list, resolution: int) -> np.array:
 def get_path_dict(filename: str) -> dict:
     stopcond = lambda d, i: d[i+1] not in ["M", "C", "Z",] and i+1 < len(d)-1
 
-    tree = ET.parse("/home/dimitri/Downloads/" + filename)
+    tree = ET.parse(dirname + "/files/" + filename)
     root = tree.getroot()
     d = root[0].attrib["d"]
     points = dict()
@@ -26,7 +29,7 @@ def get_path_dict(filename: str) -> dict:
             start = i+1
             while stopcond(d,i):
                 i+=1
-                if d[i+1] + d[i+2] == "  ":
+                if  i < len(d)-2 and d[i+1] + d[i+2] == "  ":
                     end = i
                     points["M" + str(index)] = str(d[start+1:end+1])
                     index += 1
@@ -40,7 +43,7 @@ def get_path_dict(filename: str) -> dict:
             start = i+1
             while stopcond(d,i):
                 i+=1
-                if d[i+1] + d[i+2] == "  ":
+                if i < len(d)-2 and d[i+1] + d[i+2] == "  ":
                     end = i
                     points["C" + str(index)] = str(d[start+1:end+1])
                     index += 1
@@ -51,7 +54,7 @@ def get_path_dict(filename: str) -> dict:
             continue
 
         if d[i] == "Z":
-            points[str(index) + "Z"] = 0
+            points["Z" + str(index)] = 0
             index += 1
             continue
 
@@ -76,13 +79,29 @@ def get_path_dict(filename: str) -> dict:
 points = get_path_dict("path")
 
 
+def get_points_coords(points: np.array, res:int) -> list:
+    coords = list()
 
+    for key in points:
+        if key[0] == "C":
+            P = points[key]
+
+            # coords.append(np.array([bezier_points(P[:,0], res), bezier_points(P[:,1], res)]))
+            coords.append(np.array([bezier_points(P[:,0], res), bezier_points(P[:,1], res), np.zeros(res)]))
+
+        elif key[0] == "Z":
+            coords.append(np.array([np.zeros(res), np.zeros(res), -5*np.ones(res)]))
+
+    return coords
+
+# print(get_points_coords(get_path_dict("path"), 5))
 
 """ 
+points = get_path_dict("contourgroguraw")
 for key in points:
     print(key)
     print(points[key])
-"""
+ """
 
 
 """ 
@@ -113,4 +132,4 @@ ax.set_ylim(ax.get_ylim()[::-1])
 # plt.plot(bezier_points([100, 50, 150, 100], 100))
 
 plt.show() 
-"""
+ """
