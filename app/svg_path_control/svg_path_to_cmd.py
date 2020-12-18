@@ -81,6 +81,7 @@ points = get_path_dict("path")
 
 def get_points_coords(points: np.array, res:int) -> list:
     coords = list()
+    isUp = False
 
     for key in points:
         if key[0] == "C":
@@ -89,12 +90,20 @@ def get_points_coords(points: np.array, res:int) -> list:
             # coords.append(np.array([bezier_points(P[:,0], res), bezier_points(P[:,1], res)]))
             coords.append(np.array([bezier_points(P[:,0], res), bezier_points(P[:,1], res), np.zeros(res)]))
 
+            if isUp:
+                coords[-2][0, 1:] = P[0,0]
+                coords[-2][1, 1:] = P[0,1]
+                isUp = False
+
         elif key[0] == "Z":
             coords.append(np.array([np.zeros(res), np.zeros(res), -5*np.ones(res)]))
+            coords[-1][0,0] = coords[-2][0, -1]
+            coords[-1][1,0] = coords[-2][1, -1]
+            isUp = True
 
     return coords
 
-# print(get_points_coords(get_path_dict("path"), 5))
+# print(get_points_coords(get_path_dict("contourgroguraw"), 5))
 
 """ 
 points = get_path_dict("contourgroguraw")
