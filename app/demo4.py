@@ -21,16 +21,21 @@ def sigint_handler(sig, frame):
 
 signal.signal(signal.SIGINT, sigint_handler)
 
+arm = "dummy"
+
 try:
     arm = XArmAPI('172.21.72.250', do_not_open=True)
     arm.connect()
 
     arm.set_world_offset([0, 0, 0, 0, 0, 0])
     time.sleep(0.5)
+    print("world offset: {}".format(arm.world_offset))
     base_pos = deepcopy(arm.position)
     print("base_pos: {}".format(base_pos))
     print("world offset: {}".format(arm.world_offset))
-    arm.set_world_offset([0, 0, 0, -179.7, base_pos[4], base_pos[5]])
+    # arm.set_world_offset([0, 0, 0, -179.7, base_pos[4], base_pos[5]])
+
+    arm.set_world_offset([0, 0, 0, -base_pos[3], -base_pos[4], base_pos[5]])
     time.sleep(0.5)
     print("world offset: {}".format(arm.world_offset))
 
@@ -49,8 +54,8 @@ else:
 
 coords = np.array(svg_path_to_cmd.get_points_coords(
     svg_path_to_cmd.get_path_dict(filename), 5), dtype=object)
-
-coords = coords/10
+norm = np.linalg.norm(coords)
+coords = coords/norm*2000
 
 
 # for coord in coords:
@@ -67,9 +72,12 @@ except:
 speed = 10 # < 250
 acc = 10*speed
 
-arm.set_tool_position(0, 0, -5, 0, 0, 0, is_radian=False, wait=True, relative=True, speed=speed, mvacc=acc,) #start e.g. lift pen up
+try:
+    arm.set_tool_position(0, 0, -5, 0, 0, 0, is_radian=False, wait=True, relative=True, speed=speed, mvacc=acc,) #start e.g. lift pen up
+except:
+    pass
 for coord in coords:
-    print(coord)
+    # print(coord)
     for i in range(len(coord[0])):
         cmd = [coord[0,i], coord[1,i], -5 if coord[2,i] != 0 else 0]
         cmd_to_move.command_queue.put(cmd)
@@ -78,10 +86,10 @@ for coord in coords:
 cmd_to_move.command_queue.join()
 
 
-while arm.get_cmdnum()[1] != 0:
-    time.sleep(0.1)
-
 try:
+    while arm.get_cmdnum()[1] != 0:
+        time.sleep(0.1)
+
     print("\nstopping\n")
     arm.set_position(0, 0, 0, 0, 0, 0, is_radian=False, wait=True, relative=True,)
     arm.set_state(state=4)

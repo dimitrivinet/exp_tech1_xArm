@@ -5,6 +5,8 @@ import numpy as np
 import os
 import xml.etree.ElementTree as ET
 
+from collections import OrderedDict
+
 dirname = os.path.dirname(__file__)
 
 def bezier_points(P: list, resolution: int) -> np.array:
@@ -20,7 +22,7 @@ def get_path_dict(filename: str) -> dict:
     tree = ET.parse(dirname + "/files/" + filename)
     root = tree.getroot()
     d = root[0].attrib["d"]
-    points = dict()
+    points = OrderedDict()
     index = 0
 
 
@@ -57,6 +59,9 @@ def get_path_dict(filename: str) -> dict:
             points["Z" + str(index)] = 0
             index += 1
             continue
+
+    # for key in points:
+    #     print(key)
 
     mem = ""
     for key in points:

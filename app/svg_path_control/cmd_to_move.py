@@ -3,6 +3,7 @@
 import queue
 import time
 from numpy import add
+from copy import deepcopy
 
 command_queue = queue.Queue()
 
@@ -16,7 +17,8 @@ def space(arm):
 def move(arm):
     count = 0
     #start(arm)
-    base_pos = arm.position
+    
+    base_pos = deepcopy(arm.position)
     goal_pos = base_pos.copy()
 
     while True:
