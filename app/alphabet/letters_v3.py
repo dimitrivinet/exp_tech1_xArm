@@ -21,7 +21,7 @@ def space(arm):
 
 
 def move(arm):
-    start(arm)
+    # start(arm)
     last_pos = arm.position + [0, 0]
     while True:
         time.sleep(0.05)
@@ -37,24 +37,13 @@ def move(arm):
 
                 # print(last_pos)
 
-                speed = 20 #speed < 250
+                speed = 10 #speed < 250
                 # ret = arm.set_position(*last_pos[:6], radius=last_pos[6], is_radian=False, wait=last_pos[7], speed=speed, mvacc=10*speed, relative=False)
                 ret = arm.set_position(*last_pos[:6], radius=last_pos[6], is_radian=False, wait=False, speed=speed, mvacc=10*speed, relative=False)
                 if ret < 0:
                     print('set_position, ret={}'.format(ret))
                     return -1
 
-            elif len(path) == 3:
-
-                posA = last_pos[:6]
-                posB = list(add(posA, path[0]))
-                posC = list(add(posB, path[1]))
-
-                # print(f'{posA},\n {posB},\n {posC}\n\n')
-                arm.move_circle(posB, posC, path[2], wait=False, speed=speed, mvacc=10*speed)
-
-
-                # arm.move_circle(path[0], path[1], path[2], wait=False, speed=speed, mvacc=10*speed)
             else:
                 pass
 

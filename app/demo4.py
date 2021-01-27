@@ -42,6 +42,8 @@ try:
     arm.motion_enable(enable=True)
     arm.set_mode(0)
     arm.set_state(state=0)
+
+    arm.set_tool_position(z=-5, wait=True, speed=10, mvacc=100)
 except:
     print("arm not connected")
     pass

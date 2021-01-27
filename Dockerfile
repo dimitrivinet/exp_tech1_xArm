@@ -13,6 +13,6 @@ RUN git clone https://github.com/xArm-Developer/xArm-Python-SDK.git && cd xArm-P
 
 COPY /app /app
 
-ENTRYPOINT ./app/demo2.py
+ENTRYPOINT ./app/demo_vocal_final.py
 
 CMD bash
