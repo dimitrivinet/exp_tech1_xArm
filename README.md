@@ -1,13 +1,21 @@
 # exp_tech1_xArm
 
-run:
+Dependencies: Docker
+
+To create docker container run (as sudo):
+
+    docker build -t <image name>:<image tag> <relative path to Dockerfile>
+
+To launch created docker container run:
 
     docker run --device /dev/snd -it <image name>:<image tag>
 
 
-Utilisation sans docker:
+To use without docker:
 
-Pour installer PortAudio correctement:
+- Install dependencies listed in Dockerfile
+
+You may need to reinstall PortAudio properly. To do so run:
 
     sudo apt-get remove libportaudio2
     sudo apt-get install libasound2-dev
