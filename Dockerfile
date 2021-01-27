@@ -12,8 +12,8 @@ RUN pip3 install speechrecognition pyaudio numpy mediapipe
 RUN git clone https://github.com/xArm-Developer/xArm-Python-SDK.git && cd xArm-Python-SDK && python3 setup.py install && ldconfig
 
 COPY /app /app
-RUN chmod +x /app/demo_vocal_final.py
 
+RUN chmod +x /app/demo_vocal_final.py
 ENTRYPOINT ./app/demo_vocal_final.py
 
 CMD bash
