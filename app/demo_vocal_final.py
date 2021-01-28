@@ -2,12 +2,10 @@
 
 from alphabet import letters_v3
 from copy import deepcopy
-from numpy import add
 from xarm.wrapper import XArmAPI
 from speech_control import speech_recog_v1
 
 import signal
-import string
 import sys
 import threading
 import time
@@ -89,19 +87,20 @@ def sigint_handler(sig, frame):
 
 def write(arm, to_write):
 
-    #check if word will go out of page
-    pos = deepcopy(arm.position)
-    curr_y = pos[2]
-    if curr_y + len(to_write)*10 > R_THRESH:
-        to_next_line = pos
-        to_next_line[0] -= 15
-        to_next_line[1] = L_THRESH
-        ret = arm.set_position(*to_next_line , radius=-1, is_radian=False, wait=True, speed=20, mvacc=200, relative=False)
-        if ret < 0:
-            print('set_position, ret={}'.format(ret))
-            return -1
-        time.sleep(1)
-
+    """ 
+        #check if word will go out of page
+        pos = deepcopy(arm.position)
+        curr_y = pos[2]
+        if curr_y + len(to_write)*10 > R_THRESH:
+            to_next_line = pos
+            to_next_line[0] -= 15
+            to_next_line[1] = L_THRESH
+            ret = arm.set_position(*to_next_line , radius=-1, is_radian=False, wait=True, speed=20, mvacc=200, relative=False)
+            if ret < 0:
+                print('set_position, ret={}'.format(ret))
+                return -1
+            time.sleep(1)
+    """
 
     paths = list()
     # letters_v3.start(arm)

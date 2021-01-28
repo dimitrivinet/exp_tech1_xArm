@@ -37,8 +37,8 @@ def move(arm):
             if len(path) == 8:               
 
                 if last_pos[0] + 10 > R_THRESH and abs(path[2]) != 5 :
-                    last_pos[0] = L_THRESH
-                    last_pos[1] -= 15
+                    last_pos[1] = L_THRESH
+                    last_pos[0] -= 15
 
                 last_pos = list(add(last_pos[:6], path[:6])) + [0, 0]
                 last_pos[6] = path[6]
