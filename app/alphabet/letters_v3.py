@@ -2,11 +2,16 @@
 
 import queue
 import time
+
 from numpy import add
+from copy import deepcopy
 
 is_down = True
 
 command_queue = queue.Queue()
+
+R_THRESH = -439.877
+L_THRESH = -611.823
 
 
 def start(arm):
@@ -22,7 +27,7 @@ def space(arm):
 
 def move(arm):
     # start(arm)
-    last_pos = arm.position + [0, 0]
+    last_pos = deepcopy(arm.position) + [0, 0]
     while True:
         time.sleep(0.05)
         if not command_queue.empty():
@@ -30,6 +35,10 @@ def move(arm):
             # print(f'Working on {path}')
 
             if len(path) == 8:               
+
+                if last_pos[0] + 10 > R_THRESH and abs(path[2]) != 5 :
+                    last_pos[0] = L_THRESH
+                    last_pos[1] -= 15
 
                 last_pos = list(add(last_pos[:6], path[:6])) + [0, 0]
                 last_pos[6] = path[6]
