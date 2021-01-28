@@ -1,7 +1,9 @@
 app/alphabet/__pycache__/letters_v3.cpython-38.pyc
 app/.vscode
 app/svg_path_control/files
-**/__pycache__
+**__pycache__**
 xarm_portable_mount.FCStd
 xarm_portable_mount.FCStd1
 appicon.xcf
+**.tmp
+**.pyc
