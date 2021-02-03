@@ -5,3 +5,5 @@ app/svg_path_control/files
 xarm_portable_mount.FCStd
 xarm_portable_mount.FCStd1
 appicon.xcf
+
+*.tmp
